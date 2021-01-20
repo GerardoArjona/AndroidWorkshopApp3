@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 
@@ -16,11 +18,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     private Retrofit retrofit;
+    PokemonAdapter adapter;
+    ArrayList<Pokemon> items = new ArrayList<Pokemon>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        adapter = new PokemonAdapter(this, 0, items);
 
         retrofit = new Retrofit.Builder()
                 .baseUrl("http://pokeapi.co/api/v2/")
@@ -28,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         getPokemonWithOffset(0);
+
+        ListView listView = (ListView) findViewById(R.id.pokemon_list);
+        listView.setAdapter(adapter);
     }
 
     private void getPokemonWithOffset(int offset) {
@@ -42,10 +51,12 @@ public class MainActivity extends AppCompatActivity {
                     PokeApiResponse pokemonApiResponse = response.body();
                     ArrayList<Pokemon> pokemonList = pokemonApiResponse.getResults();
 
-                    for(int i = 0; i < pokemonList.size(); i++){
-                        Pokemon pokemon = pokemonList.get(i);
-                        Log.e("POKEMON", "onResponse: " + pokemon.getName());
-                    }
+                    // for(int i = 0; i < pokemonList.size(); i++){
+                    //    Pokemon pokemon = pokemonList.get(i);
+                    //    Log.e("POKEMON", "onResponse: " + pokemon.getName());
+                    // }
+
+                    adapter.addPokemonList(pokemonList);
 
                 }else{
                     Log.e("POKEMON", "onResponseError: " + response.errorBody());

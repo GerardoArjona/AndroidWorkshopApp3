@@ -2,8 +2,8 @@ package com.example.androidworkshopapp3;
 
 public class Pokemon {
 
-    private String name;
-    private String url;
+    public String name;
+    public String url;
 
     public String getName() {
         return name;
