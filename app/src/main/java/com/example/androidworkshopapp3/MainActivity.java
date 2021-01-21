@@ -2,11 +2,12 @@ package com.example.androidworkshopapp3;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         adapter = new PokemonAdapter(this, 0, items);
-        spinner = (ProgressBar)findViewById(R.id.fetchingApiProgressBar);
+        spinner = (ProgressBar)findViewById(R.id.fetchingApiProgressBarSinglePokemon);
 
         retrofit = new Retrofit.Builder()
                 .baseUrl("http://pokeapi.co/api/v2/")
@@ -67,6 +68,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent pokemonDetail = new Intent(getBaseContext(), PokemonDetail.class);
+                //Log.e("POKEMON", "pokNum main activity: " + String.valueOf(items.get(position).getNumber()));
+                pokemonDetail.putExtra("POK_NUMBER", String.valueOf(items.get(position).getNumber()));
+                startActivity(pokemonDetail);
             }
         });
     }

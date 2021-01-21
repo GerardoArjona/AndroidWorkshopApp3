@@ -20,4 +20,9 @@ public class Pokemon {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    public int getNumber() {
+        String[] splitUrl = url.split("/");
+        return Integer.parseInt(splitUrl[splitUrl.length - 1]);
+    }
 }
