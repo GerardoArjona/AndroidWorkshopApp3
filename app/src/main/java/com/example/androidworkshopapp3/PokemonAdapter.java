@@ -32,6 +32,9 @@ public class PokemonAdapter extends ArrayAdapter<Pokemon> {
 
     public void addPokemonList(ArrayList<Pokemon> pokemonList){
         items.addAll(pokemonList);
+        if(items.size() > 150){
+            items.subList(151, 160).clear();
+        }
         notifyDataSetChanged();
     }
 
