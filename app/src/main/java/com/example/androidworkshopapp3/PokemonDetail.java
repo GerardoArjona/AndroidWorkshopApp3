@@ -1,11 +1,14 @@
 package com.example.androidworkshopapp3;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -23,6 +26,8 @@ public class PokemonDetail extends AppCompatActivity {
     TextView tvPokemonDetailExp;
     TextView tvPokemonDetailHeight;
     TextView tvPokemonDetailWeight;
+    ImageView ivPokemonDetailType1;
+    ImageView ivPokemonDetailType2;
     private ProgressBar spinner;
 
     @Override
@@ -40,6 +45,12 @@ public class PokemonDetail extends AppCompatActivity {
         tvPokemonDetailExp = findViewById(R.id.tvPokemonDetailExp);
         tvPokemonDetailHeight = findViewById(R.id.tvPokemonDetailHeight);
         tvPokemonDetailWeight = findViewById(R.id.tvPokemonDetailWeight);
+        ivPokemonDetailType1 = findViewById(R.id.ivPokemonDetailType1);
+        ivPokemonDetailType2 = findViewById(R.id.ivPokemonDetailType2);
+
+        ivPokemonDetailType1.setVisibility(View.GONE);
+        ivPokemonDetailType2.setVisibility(View.GONE);
+
 
         retrofit = new Retrofit.Builder()
                 .baseUrl("http://pokeapi.co/api/v2/")
@@ -64,6 +75,89 @@ public class PokemonDetail extends AppCompatActivity {
                     tvPokemonDetailExp.setText(pokemonApiResponse.base_experience + " EXP");
                     tvPokemonDetailHeight.setText( Float.toString(Float.parseFloat(pokemonApiResponse.height)/10) + " m");
                     tvPokemonDetailWeight.setText( Float.toString(Float.parseFloat(pokemonApiResponse.weight)/10) + " kg");
+
+                    if(pokemonApiResponse.types[0] != null){
+                        ivPokemonDetailType1.setVisibility(View.VISIBLE);
+                        if(pokemonApiResponse.types[0].type.name.equals("bug")){
+                            ivPokemonDetailType1.setImageResource(R.drawable.bug);
+                        }else if(pokemonApiResponse.types[0].type.name.equals("dragon")){
+                            ivPokemonDetailType1.setImageResource(R.drawable.dragon);
+                        }else if(pokemonApiResponse.types[0].type.name.equals("electric")){
+                            ivPokemonDetailType1.setImageResource(R.drawable.electric);
+                        }else if(pokemonApiResponse.types[0].type.name.equals("fight")){
+                            ivPokemonDetailType1.setImageResource(R.drawable.fight);
+                        }else if(pokemonApiResponse.types[0].type.name.equals("fire")){
+                            ivPokemonDetailType1.setImageResource(R.drawable.fire);
+                        }else if(pokemonApiResponse.types[0].type.name.equals("flying")){
+                            ivPokemonDetailType1.setImageResource(R.drawable.flying);
+                        }else if(pokemonApiResponse.types[0].type.name.equals("ghost")){
+                            ivPokemonDetailType1.setImageResource(R.drawable.ghost);
+                        }else if(pokemonApiResponse.types[0].type.name.equals("grass")){
+                            ivPokemonDetailType1.setImageResource(R.drawable.grass);
+                        }else if(pokemonApiResponse.types[0].type.name.equals("ground")){
+                            ivPokemonDetailType1.setImageResource(R.drawable.ground);
+                        }else if(pokemonApiResponse.types[0].type.name.equals("ice")){
+                            ivPokemonDetailType1.setImageResource(R.drawable.ice);
+                        }else if(pokemonApiResponse.types[0].type.name.equals("normal")){
+                            ivPokemonDetailType1.setImageResource(R.drawable.normal);
+                        }else if(pokemonApiResponse.types[0].type.name.equals("poison")){
+                            ivPokemonDetailType1.setImageResource(R.drawable.poison);
+                        }else if(pokemonApiResponse.types[0].type.name.equals("psychic")){
+                            ivPokemonDetailType1.setImageResource(R.drawable.psychc);
+                        }else if(pokemonApiResponse.types[0].type.name.equals("rock")){
+                            ivPokemonDetailType1.setImageResource(R.drawable.rock);
+                        }else if(pokemonApiResponse.types[0].type.name.equals("water")){
+                            ivPokemonDetailType1.setImageResource(R.drawable.water);
+                        }else{
+                            ivPokemonDetailType1.setImageResource(R.drawable.pokeball);
+                        }
+                    }
+
+                    if(pokemonApiResponse.types.length >= 2){
+                        ivPokemonDetailType2.setVisibility(View.VISIBLE);
+                        if(pokemonApiResponse.types[1].type.name.equals("bug")){
+                            ivPokemonDetailType2.setImageResource(R.drawable.bug);
+                        }else if(pokemonApiResponse.types[1].type.name.equals("dragon")){
+                            ivPokemonDetailType2.setImageResource(R.drawable.dragon);
+                        }else if(pokemonApiResponse.types[1].type.name.equals("electric")){
+                            ivPokemonDetailType2.setImageResource(R.drawable.electric);
+                        }else if(pokemonApiResponse.types[1].type.name.equals("fight")){
+                            ivPokemonDetailType2.setImageResource(R.drawable.fight);
+                        }else if(pokemonApiResponse.types[1].type.name.equals("fire")){
+                            ivPokemonDetailType2.setImageResource(R.drawable.fire);
+                        }else if(pokemonApiResponse.types[1].type.name.equals("flying")){
+                            ivPokemonDetailType2.setImageResource(R.drawable.flying);
+                        }else if(pokemonApiResponse.types[1].type.name.equals("ghost")){
+                            ivPokemonDetailType2.setImageResource(R.drawable.ghost);
+                        }else if(pokemonApiResponse.types[1].type.name.equals("grass")){
+                            ivPokemonDetailType2.setImageResource(R.drawable.grass);
+                        }else if(pokemonApiResponse.types[1].type.name.equals("ground")){
+                            ivPokemonDetailType2.setImageResource(R.drawable.ground);
+                        }else if(pokemonApiResponse.types[1].type.name.equals("ice")){
+                            ivPokemonDetailType2.setImageResource(R.drawable.ice);
+                        }else if(pokemonApiResponse.types[1].type.name.equals("normal")){
+                            ivPokemonDetailType2.setImageResource(R.drawable.normal);
+                        }else if(pokemonApiResponse.types[1].type.name.equals("poison")){
+                            ivPokemonDetailType2.setImageResource(R.drawable.poison);
+                        }else if(pokemonApiResponse.types[1].type.name.equals("psychic")){
+                            ivPokemonDetailType2.setImageResource(R.drawable.psychc);
+                        }else if(pokemonApiResponse.types[1].type.name.equals("rock")){
+                            ivPokemonDetailType2.setImageResource(R.drawable.rock);
+                        }else if(pokemonApiResponse.types[1].type.name.equals("water")){
+                            ivPokemonDetailType2.setImageResource(R.drawable.water);
+                        }else{
+                            ivPokemonDetailType2.setImageResource(R.drawable.pokeball);
+                        }
+                    }else{
+
+                        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.clPokemonDetail);
+                        ConstraintSet constraints = new ConstraintSet();
+                        constraints.clone(layout);
+
+                        constraints.setHorizontalBias(ivPokemonDetailType1.getId(), 0.5F);
+
+                        constraints.applyTo(layout);
+                    }
 
 
                 }else{

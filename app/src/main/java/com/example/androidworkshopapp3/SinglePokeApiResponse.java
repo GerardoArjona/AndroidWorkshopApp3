@@ -6,6 +6,7 @@ public class SinglePokeApiResponse {
     public String base_experience;
     public String height;
     public String weight;
+    public Types[] types;
 
     public String getName() {
         return name;
@@ -15,12 +16,12 @@ public class SinglePokeApiResponse {
         this.name = name;
     }
 
-    public String getExp() {
+    public String getBase_experience() {
         return base_experience;
     }
 
-    public void setExp(String exp) {
-        this.base_experience = exp;
+    public void setBase_experience(String base_experience) {
+        this.base_experience = base_experience;
     }
 
     public String getHeight() {
