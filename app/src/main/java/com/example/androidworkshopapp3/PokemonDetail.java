@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,6 +31,7 @@ public class PokemonDetail extends AppCompatActivity {
     TextView tvPokemonDetailWeight;
     ImageView ivPokemonDetailType1;
     ImageView ivPokemonDetailType2;
+    ImageView ivPokemonDetail;
     private ProgressBar spinner;
 
     @Override
@@ -47,10 +51,17 @@ public class PokemonDetail extends AppCompatActivity {
         tvPokemonDetailWeight = findViewById(R.id.tvPokemonDetailWeight);
         ivPokemonDetailType1 = findViewById(R.id.ivPokemonDetailType1);
         ivPokemonDetailType2 = findViewById(R.id.ivPokemonDetailType2);
+        ivPokemonDetail = findViewById(R.id.ivPokemonDetail);
 
         ivPokemonDetailType1.setVisibility(View.GONE);
         ivPokemonDetailType2.setVisibility(View.GONE);
 
+        Glide.with(this)
+                .load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+ pokNum + ".png")
+                .centerCrop()
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(ivPokemonDetail);
 
         retrofit = new Retrofit.Builder()
                 .baseUrl("http://pokeapi.co/api/v2/")
@@ -146,7 +157,15 @@ public class PokemonDetail extends AppCompatActivity {
                         }else if(pokemonApiResponse.types[1].type.name.equals("water")){
                             ivPokemonDetailType2.setImageResource(R.drawable.water);
                         }else{
-                            ivPokemonDetailType2.setImageResource(R.drawable.pokeball);
+
+                            ivPokemonDetailType2.setVisibility(View.GONE);
+                            ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.clPokemonDetail);
+                            ConstraintSet constraints = new ConstraintSet();
+                            constraints.clone(layout);
+
+                            constraints.setHorizontalBias(ivPokemonDetailType1.getId(), 0.5F);
+
+                            constraints.applyTo(layout);
                         }
                     }else{
 
